@@ -134,8 +134,10 @@ On the 18 reference slides, LEMON + QuPath all and QuPath all tie: 0.9110 agains
 | Configuration | Ki67 | PR | ER | Mean of 3 stains |
 | --- | --- | --- | --- | --- |
 | QuPath all (108) | 0.8426 ± 0.0018 | 0.9326 ± 0.0022 | 0.9561 ± 0.0008 | 0.9104 |
+| LEMON (10 µm) + QuPath all | 0.8509 ± 0.0015 | 0.9365 ± 0.0014 | 0.9479 ± 0.0004 | 0.9118 |
 | LEMON (10 + 50 µm) + QuPath all | 0.8429 ± 0.0063 | 0.9456 ± 0.0029 | 0.9446 ± 0.0024 | 0.9110 |
-| Difference | +0.03 | +1.30 | -1.15 | +0.06 |
+| Difference, 10 µm minus QuPath | +0.83 | +0.39 | -0.82 | +0.13 |
+| Difference, 10 + 50 µm minus QuPath | +0.03 | +1.30 | -1.15 | +0.06 |
 
 Per slide, averaged over seeds (A = LEMON + QuPath all, B = QuPath all):
 
@@ -160,7 +162,7 @@ Per slide, averaged over seeds (A = LEMON + QuPath all, B = QuPath all):
 | Ki67 PLS24-009859 | 0.9080 | 0.8533 | +5.5 |
 | PR MIS24-007597 | 0.9382 | 0.8828 | +5.5 |
 
-Fusion loses most on slides from cases RDS24-012921 and FHS24-019049, which are also among the lowest-accuracy slides for both models. It gains on a different set (Ki67 PLS24-009859, PR MIS24-007597). Eighteen slides from six cases cannot detect a one or two point difference. At 10 µm the earlier reference run gave +1.2 (Ki67), +0.9 (PR) and -0.8 (ER) for fusion over QuPath all, so the two-scale input did not improve the reference result.
+Fusion loses most on slides from cases RDS24-012921 and FHS24-019049, which are also among the lowest-accuracy slides for both models. It gains on a different set (Ki67 PLS24-009859, PR MIS24-007597). Eighteen slides from six cases cannot detect a one or two point difference. Re-run at 10 µm on the updated annotations (3 seeds), fusion also ties QuPath all: +0.13 points, better on 10 of 18 slides, p = 0.68 (ER -0.8, Ki67 +0.8, PR +0.4). The two-scale input did not improve the reference result over 10 µm (-0.07 points, p = 0.88). The earlier 10 µm run on the previous annotations gave +1.2 (Ki67), +0.9 (PR) and -0.8 (ER).
 
 Training accuracy at the end of training is 0.984 for fusion and 0.960 for QuPath all; the extra fit does not carry to the reference slides.
 
