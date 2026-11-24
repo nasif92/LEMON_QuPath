@@ -127,6 +127,34 @@ By annotation phase of the held-out slide (accuracy, mean over slides):
 
 Phase 1 slides are near ceiling for every configuration; the gain is largest on phase 3 slides (+7.5 points). The p-values treat slides as independent, and the three seeds are averaged rather than counted as extra samples.
 
+## Model size: ViT-B/8 vs ViT-S/8
+
+The larger LEMON model (ViT-B/8, 768 dimensions per crop) gives no gain over ViT-S/8 in cross-validation. With the two-scale input, LEMON + QuPath scores 0.906 against 0.902 and LEMON alone 0.901 against 0.898, differences of 0.3 to 0.4 points that are within seed noise. Slide-mean accuracy on the 86 training slides, 5-fold; ViT-B/8 over 5 seeds for fusion and QuPath, and over the 4 seeds that trained for LEMON alone.
+
+| Configuration | Ki67 | PR | ER | Mean of 3 stains |
+| --- | --- | --- | --- | --- |
+| QuPath all (108) | 0.846 | 0.837 | 0.902 | 0.862 |
+| LEMON alone, ViT-S/8 | 0.893 | 0.890 | 0.912 | 0.898 |
+| LEMON alone, ViT-B/8 | 0.896 | 0.893 | 0.913 | 0.901 |
+| LEMON + QuPath all, ViT-S/8 | 0.905 | 0.891 | 0.910 | 0.902 |
+| LEMON + QuPath all, ViT-B/8 | 0.911 | 0.895 | 0.911 | 0.906 |
+
+At a single 10 µm crop (seed 42) ViT-B/8 is also within a point of ViT-S/8: LEMON alone 0.871 against 0.867, fusion 0.893 against 0.885.
+
+One of five seeds (43) of ViT-B/8 LEMON alone collapsed to chance on all three stains (0.51 to 0.57), in every fold; fusion and the other seeds were unaffected. This is a training failure of the 6-unit MLP on the 1,536-dimensional input, not a property of the embeddings, and ViT-S/8 did not show it. The ViT-B/8 means above leave that seed out for LEMON alone; with it, the three-seed mean is 0.777. ViT-S/8 stays the choice: it is smaller and already extracted.
+
+On the 18 reference slides the two models also give the same answer. Slide-mean accuracy with the two-scale input, 5 seeds for ViT-B/8 and 3 seeds for the other rows.
+
+| Configuration | Mean of 3 stains | Difference from QuPath all | Better on | Paired p |
+| --- | --- | --- | --- | --- |
+| QuPath all (108) | 0.9104 |  |  |  |
+| LEMON + QuPath all, ViT-S/8 | 0.9110 | +0.06 points | 10 of 18 | 0.93 |
+| LEMON + QuPath all, ViT-B/8 | 0.9121 | +0.16 points | 10 of 18 | 0.84 |
+| LEMON alone, ViT-S/8 | 0.9047 | -0.57 points | 10 of 18 | 0.50 |
+| LEMON alone, ViT-B/8 | 0.9047 | -0.58 points | 11 of 18 | 0.55 |
+
+The larger model does not move the reference result, and the same slides are weak for both (Ki67 RDS24-012921 and FHS24-019049, ER RVS24-009627). The choice between the two models was made from cross-validation, not from the reference slides.
+
 ## Reference slides with the two-scale input
 
 On the 18 reference slides, LEMON + QuPath all and QuPath all tie: 0.9110 against 0.9104, fusion better on 10 of 18 slides, paired t-test p = 0.93. The cross-validation gain did not carry over. Slide-mean accuracy, mean ± SD over 3 seeds; training on the updated annotations, nothing tuned on these slides.
